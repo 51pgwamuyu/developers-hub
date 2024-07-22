@@ -54,7 +54,9 @@ export const useAuthClient=(options=defaultOptions)=>{
   const login =()=>{
     authUser.login({
       ...options.loginOptions,
+      
       onSucess:()=>{
+        window.location.reload();
         updateClient(authUser);
         window.location.reload();
       

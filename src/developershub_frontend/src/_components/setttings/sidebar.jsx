@@ -4,11 +4,15 @@ import {
   DessertIcon,
   FolderClock,
   HomeIcon,
+  Layers3,
   LogOut,
+  NotebookPen,
   PackageOpen,
   PlusCircle,
   PowerOff,
-  Projector
+  Projector,
+  Users,
+  UsersRound
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "../../@/lib/utils";
@@ -22,22 +26,22 @@ const routes = [
   {
     name: "Following",
     href: "/settings/followings",
-    icon: FolderClock,
+    icon: Users,
   },
   {
     name: "Followers",
     href: "/settings/followers",
-    icon: PackageOpen,
+    icon: UsersRound,
   },
   {
     name: "Articles",
     href: "/settings/articles",
-    icon: AreaChartIcon,
+    icon: NotebookPen,
   },
   {
     name: "your projects",
     href: "/your-projects",
-    icon: Projector,
+    icon: Layers3,
   },
   {
     name: "AddArtlce",
@@ -45,14 +49,9 @@ const routes = [
     icon: PlusCircle,
   },
   {
-    name:"MyDevHub",
-    href:"/settings/my-dev-hub",
-    icon:DessertIcon
-  }
-  ,{
     name:"Profile",
     href:"/settings/profile",
-    icon:PowerOff
+    icon:UsersRound
   }
 ];
 export const SideBar = () => {

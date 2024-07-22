@@ -9,6 +9,14 @@ import Iter "mo:base/Iter";
 import Bool "mo:base/Bool";
 import Types "types";
 actor devshub{
+  type RegisterPayload={
+    username:Text;
+    avatarurl:Text;
+    userbio:Text;
+  };
+  type GetDeveloperPayload={
+    username:Text;
+  };
   type Developer=Types.Developer;
   type Article=Types.article;
   type Project=Types.project;
@@ -16,24 +24,27 @@ actor devshub{
   type Result<Ok,Err> =Types.Result<Ok,Err>;
   type HashMap<K,V> =Types.HashMap<K,V>; 
   let devs:HashMap<Text,Developer> =HashMap.HashMap<Text,Developer>(0,Text.equal,Text.hash);
+   let devsonprincipals:HashMap<Principal,Developer> =HashMap.HashMap<Principal,Developer>(0,Principal.equal,Principal.hash);
  // let devsonprincipal:HashMap<Principal,Developer> =HashMap.HashMap<Principal,Developer>(1,Principal.equal,Principal.hash);
   let devsarticles:HashMap<Principal,Article> =HashMap.HashMap<Principal,Article>(1,Principal.equal,Principal.hash);
   let devsprojects:HashMap<Principal,Project> =HashMap.HashMap<Principal,Project>(2,Principal.equal,Principal.hash);
   let devsprojectsBasedOnName:HashMap<Text,Project> =HashMap.HashMap<Text,Project>(3,Text.equal,Text.hash);
-    public shared ({caller}) func registerDeveloper(username:Text,avatarurl:Text):async Result.Result<Developer,Text>{
-      switch(devs.get(username)){
+    public shared ({caller}) func registerDeveloper(payload:RegisterPayload):async Result.Result<Developer,Text>{
+      switch(devs.get(payload.username)){
         case(null){
           let newDeveloper:Developer={
-            userName=username;
+            userName=payload.username;
+            userBio=payload.userbio;
             principalId=caller;
-            avatar=avatarurl;
+            avatar=payload.avatarurl;
             followers=[];
             following=[];
             projects=[];
             articles=[];
             communities=[];
           };
-          devs.put(username,newDeveloper);
+          devs.put(payload.username,newDeveloper);
+          devsonprincipals.put(caller,newDeveloper);
           return #ok(newDeveloper);
         };
         case(?_logined){
@@ -41,12 +52,22 @@ actor devshub{
         }
       }
     };
-    public query func getaDeveloper(username:Text):async Result<Developer,Text>{
-      switch(devs.get(username)){
+    public query func getaDeveloper(payload:GetDeveloperPayload):async Result<Developer,Text>{
+      switch(devs.get(payload.username)){
         case(null){
           return #err("there is no developer asscoiated with this username");
         };
         case(?developer){
+          return #ok(developer)
+        };
+      }
+    };
+    public shared ({caller})func getdeveloperPrincipal():async Result.Result<Developer,Text>{
+      switch(devsonprincipals.get(caller)){
+        case (null){
+          return #err("failed")
+        };
+        case (?developer){
           return #ok(developer)
         };
       }
@@ -72,6 +93,7 @@ actor devshub{
            let updatedArticles = Buffer.toArray(articlesBuffer);
            let updatedDeveloper: Developer = {
                 userName = developer.userName;
+                userBio=developer.userBio;
                 principalId = developer.principalId;
                 avatar = developer.avatar;
                 followers = developer.followers;
@@ -209,6 +231,7 @@ public shared ({caller}) func deleteArticle(articleId: Principal): async Text {
         let updatedDeveloperProject=Buffer.toArray(projectBuffer);
         let updatedDeveloper:Developer = {
                 userName = developer.userName;
+                userBio=developer.userBio;
                 principalId = developer.principalId;
                 avatar = developer.avatar;
                 followers = developer.followers;

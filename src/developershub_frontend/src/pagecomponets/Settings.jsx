@@ -3,20 +3,27 @@ import { Settings } from "../_components/setttings";
 import { Label } from "../@/components/ui/label";
 import { useState } from "react";
 import { Button } from "../@/components/ui/button";
-
+import { developershub_backend } from 'declarations/developershub_backend';
 export default function SettingPage() {
   const [username,setUserName]=useState("");
   const [bio,setBio]=useState("'");
   const [image,setImage]=useState(null);
   const[file,setFile]=useState(null);
-  const handleSubmit=(e)=>{
+  const [result,setResult]=useState();
+  const handleSubmit=async(e)=>{
     e.preventDefault();
     const filedata=new FileReader();
     filedata.addEventListener("load",()=>{
       setFile(filedata.result);
     })
     filedata.readAsDataURL(image);
-    console.log(file)
+    const data={
+      username:username,
+      userbio:bio,
+      avatarurl:file
+    }
+    const returnedData=await developershub_backend.registerDeveloper(data);
+    alert(returnedData);
   }
   return (
     <div className="max-w-2250px mx-auto p-[2rem]">

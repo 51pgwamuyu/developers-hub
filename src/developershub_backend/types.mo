@@ -64,6 +64,7 @@ module{
 
     public type Developer={
         userName:Text;
+        userBio:Text;
         principalId:Principal;
         avatar:Text;
         followers:[follower];

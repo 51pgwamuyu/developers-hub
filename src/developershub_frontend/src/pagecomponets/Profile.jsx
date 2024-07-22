@@ -3,8 +3,35 @@ import { Button } from "../@/components/ui/button";
 import { ProfileMain } from "../_components/Profile/main";
 import { SideBar } from "../_components/setttings/sidebar";
 import avatar from "../assets/images.jpeg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/auth3";
+import { useEffect, useState } from "react";
+import { developershub_backend } from 'declarations/developershub_backend';
+import Login from "../auth/login";
 export default function ProfilePage() {
+  const router=useNavigate()
+  const { callFunction, logout, login, isAuth, principal} = useAuth();
+  const[user,setUser]=useState(null);
+  if(isAuth==false){
+     router("/")
+  }
+  if(!isAuth){
+    <Login/>
+  }
+  useEffect(()=>{
+  const getUser=async ()=>{
+    try{
+      const data= await developershub_backend.getdeveloperPrincipal();
+      setUser(data)
+    }catch(err){
+      setUser("hgfdffgg")
+    }
+  }
+   getUser()
+  
+ 
+  },[])
+  console.log(user);
   return (
     <div className="max-w-2250px mx-auto p-[2rem] bg">
       <div className="flex space-x-3 h-full">
