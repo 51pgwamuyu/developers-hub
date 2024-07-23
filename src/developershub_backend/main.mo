@@ -52,6 +52,30 @@ actor devshub{
         }
       }
     };
+    public shared ({caller}) func updateDeveloper(payload:RegisterPayload):async Result.Result<Developer,Text>{
+      switch(devs.get(payload.username)){
+        case(null){
+          #err("failed to upadet")
+          
+        };
+        case(?_logined){
+          let newDeveloper:Developer={
+            userName=payload.username;
+            userBio=payload.userbio;
+            principalId=caller;
+            avatar=payload.avatarurl;
+            followers=[];
+            following=[];
+            projects=[];
+            articles=[];
+            communities=[];
+          };
+          devs.put(payload.username,newDeveloper);
+          devsonprincipals.put(caller,newDeveloper);
+          return #ok(newDeveloper);
+        }
+      }
+    };
     public query func getaDeveloper(payload:GetDeveloperPayload):async Result<Developer,Text>{
       switch(devs.get(payload.username)){
         case(null){

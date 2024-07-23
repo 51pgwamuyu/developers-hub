@@ -3,6 +3,8 @@ import mainimg from "../../assets/f2.png";
 import avatarimg from "../../assets/f5.png";
 import { Button } from "../../@/components/ui/button";
 import { LucideCakeSlice, MessageCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../auth/auth3";
 const samples = [
   {
     mainimg: mainimg,
@@ -21,6 +23,22 @@ const samples = [
   },
 ];
 export const Articles = () => {
+  const[articles,setArticles]=useState([]);
+  const { callFunction, logout, login, isAuth, principal} = useAuth();
+  useEffect(()=>{
+    const getArticles=async ()=>{
+      try{
+        const data= await callFunction.getAllArticles();
+        setArticles(data)
+      }catch(err){
+        setArticles([])
+      }
+    }
+     getArticles()
+    
+   
+    },[])
+    console.log(articles)
   return (
     <div className=" grid grid-cols-4 gap-3">
       {samples.map((val) => (

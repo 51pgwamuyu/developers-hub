@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import parse from "html-react-parser";
 import { Button } from "../../@/components/ui/button";
 import { Label } from "../../@/components/ui/label";
+import { useAuth } from "../../auth/auth3";
 export const AddArticle = () => {
   // const [title, setTitle] = useState("");
   // const [slug, setSlug] = useState("");
@@ -12,13 +13,20 @@ export const AddArticle = () => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(null);
   const [File, setFile] = useState(null);
-  const handleSubmit = (e) => {
+  const[user,setUser]=useState(null);
+  const { callFunction, logout, login, isAuth, principal} = useAuth();
+  const handleSubmit = async(e) => {
+    
     e.preventDefault();
+    const data= await callFunction.getdeveloperPrincipal();
+    setUser(data)
     const filedata = new FileReader();
     filedata.addEventListener("load", () => {
-      setFile(data.result);
+      setFile(filedata.result);
     });
     filedata.readAsDataURL(image);
+    const results=await callFunction.writeArticle(user?.ok?.userName,title,content,File)
+    console.log(results)
   };
   const modules = {
     toolbar: [

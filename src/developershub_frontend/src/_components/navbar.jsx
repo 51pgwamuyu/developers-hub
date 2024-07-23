@@ -11,7 +11,7 @@ export const NavBar = () => {
   const router = useNavigate();
   const { result, setREsult } = useState();
   const [principalid, setPrincipalId] = useState(null);
-  const { callFunction, logout, login, isAuth, principal } = useAuth();
+  const { callFunction, logout, login, isAuth, principal } =useAuth();
   useEffect(() => {
     setPrincipalId(principal);
   }, [principal]);

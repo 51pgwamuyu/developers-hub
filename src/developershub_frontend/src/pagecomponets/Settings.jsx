@@ -4,12 +4,14 @@ import { Label } from "../@/components/ui/label";
 import { useState } from "react";
 import { Button } from "../@/components/ui/button";
 import { developershub_backend } from 'declarations/developershub_backend';
+import { useAuth } from "../auth/auth3";
 export default function SettingPage() {
   const [username,setUserName]=useState("");
   const [bio,setBio]=useState("'");
   const [image,setImage]=useState(null);
   const[file,setFile]=useState(null);
   const [result,setResult]=useState();
+  const { callFunction, logout, login, isAuth, principal } =useAuth();
   const handleSubmit=async(e)=>{
     e.preventDefault();
     const filedata=new FileReader();
@@ -22,7 +24,8 @@ export default function SettingPage() {
       userbio:bio,
       avatarurl:file
     }
-    const returnedData=await developershub_backend.registerDeveloper(data);
+    console.log(data)
+    const returnedData=await callFunction.registerDeveloper(data);
     alert(returnedData);
   }
   return (

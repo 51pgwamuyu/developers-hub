@@ -51,13 +51,12 @@ export const useAuthClient=(options=defaultOptions)=>{
     });
     setCallFunction(actor);
   }
-  const login =()=>{
-    authUser.login({
+  const login =async()=>{
+     await   authUser.login({
       ...options.loginOptions,
       
-      onSucess:()=>{
-        window.location.reload();
-        updateClient(authUser);
+      onSucess:async()=>{
+        await updateClient(authUser);
         window.location.reload();
       
       },
@@ -72,7 +71,7 @@ export const useAuthClient=(options=defaultOptions)=>{
   async function logout(){
     await authUser?.logout();
     await updateClient(authUser);
-    window.location.reload()
+    //window.location.reload()
   }
   return {
     isAuth,
