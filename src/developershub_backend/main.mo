@@ -29,23 +29,23 @@ actor devshub{
   let devsarticles:HashMap<Principal,Article> =HashMap.HashMap<Principal,Article>(1,Principal.equal,Principal.hash);
   let devsprojects:HashMap<Principal,Project> =HashMap.HashMap<Principal,Project>(2,Principal.equal,Principal.hash);
   let devsprojectsBasedOnName:HashMap<Text,Project> =HashMap.HashMap<Text,Project>(3,Text.equal,Text.hash);
-    public shared ({caller}) func registerDeveloper(payload:RegisterPayload):async Result.Result<Developer,Text>{
-      switch(devs.get(payload.username)){
+    public shared ({caller}) func registerDeveloper(username:Text,bio:Text,file:Text):async Result.Result<Text,Text>{
+      switch(devs.get(username)){
         case(null){
           let newDeveloper:Developer={
-            userName=payload.username;
-            userBio=payload.userbio;
+            userName=username;
+            userBio=bio;
             principalId=caller;
-            avatar=payload.avatarurl;
+            avatar=file;
             followers=[];
             following=[];
             projects=[];
             articles=[];
             communities=[];
           };
-          devs.put(payload.username,newDeveloper);
+          devs.put(username,newDeveloper);
           devsonprincipals.put(caller,newDeveloper);
-          return #ok(newDeveloper);
+          return #ok("user registerde sucessfully");
         };
         case(?_logined){
           return #err("you are already registered into devshub try to login");

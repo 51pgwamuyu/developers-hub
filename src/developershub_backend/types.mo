@@ -35,8 +35,13 @@ module{
     public type follower={
         userName:Text;
         principalId:Text;
+        bio:Text;
     };
-
+    public type following={
+        userName:Text;
+        principalId:Text;
+        bio:Text;
+    };
     public type article={
         id:Principal;
         by:Text;
@@ -68,7 +73,7 @@ module{
         principalId:Principal;
         avatar:Text;
         followers:[follower];
-        following:[follower];
+        following:[following];
         projects:[project];
         articles:[article];    
         communities:[community];

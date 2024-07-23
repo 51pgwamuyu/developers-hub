@@ -32,8 +32,14 @@ export const NavBar = () => {
           DevHub
         </h1>
         <div className="flex items-center justify-between space-x-10">
+        <a
+            href="/articles"
+            className="text-[28px] font-medium  font text-[#665] hover:border-b-2 hover:text-[#000]"
+          >
+            DevsArticles
+          </a>
           <a
-            href="/projects"
+            href=""
             className="text-[28px] font-medium  font text-[#665] hover:border-b-2 hover:text-[#000]"
           >
             Projects
@@ -44,12 +50,7 @@ export const NavBar = () => {
           >
             DevsCommunities
           </a>
-          <a
-            href=""
-            className="text-[28px] font-medium  font text-[#665] hover:border-b-2 hover:text-[#000]"
-          >
-            DevsArticles
-          </a>
+          
         </div>
         <div className="flex items-center space-x-4">
           <Avatar>

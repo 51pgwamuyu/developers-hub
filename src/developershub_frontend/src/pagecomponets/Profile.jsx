@@ -57,7 +57,7 @@ export default function ProfilePage() {
               <Button variant="link">{user?.ok?.userName}</Button>
               <p className="">{user?.ok?.userBio}</p>
               <div className="flex space-x-5">
-              <p className="font bg-gray-600 p-1 rounded-md mb-5">{id.toString()} </p>
+              <p className="font bg-gray-600 p-1 rounded-md mb-5">{id?.toString()} </p>
               <CopyCheckIcon/>
               </div>
             

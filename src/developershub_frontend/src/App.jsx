@@ -13,6 +13,7 @@ import ArticlesPage from "./pagecomponets/Artilces";
 import AddArticlePage from "./pagecomponets/AddArticle";
 import { Footer } from "./_components/footer";
 import { AuthProvider } from "./auth/auth3";
+import AllArticlesPage from "./pagecomponets/AllArticles";
 function App() {
   const [greeting, setGreeting] = useState("");
 
@@ -31,6 +32,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<WelcomePage />} />
+          <Route path="/articles" element={<AllArticlesPage />} />
           <Route path="/settings/profile" element={<ProfilePage />} />
           <Route path="/settings/projects" element={<Projects />} />
           <Route path="/settings" element={<SettingPage />} />
